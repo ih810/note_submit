@@ -1,0 +1,29 @@
+
+<div class="note-section row">
+    <div class="col-lg-6 p-5">
+        <h4>Welcome back, {{user}}</h4>
+        <p>Add a note</p>
+        <form id="add" class="row">
+            <div class="col col-sm-9">
+                <textarea type="text" name="note" cols="35" rows="10"></textarea>
+            </div>
+            <div class="col col-sm-3">
+                <input type="submit" value="Add">
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-6 p-5">
+        <div id="notes">
+            {{#each notes}}
+            <div class="note row">
+                <div class="col col-sm-6 input"><textarea data-id="{{ @index }}">{{ this }}</textarea></div>
+
+                <div class="col col-sm-2 d-flex justify-content-center align-items-center">
+                    <button class="remove btn btn-xs" data-id="{{ @index }}"><i class="fa fa-trash"
+                        aria-hidden="false"></i></button>
+                        </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
