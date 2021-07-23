@@ -29,7 +29,10 @@ class NoteService {
             //if it exist, push the new note into array
             data[user].push(note);
           }
-          resolve(data);
+        })
+        .then(()=>{
+          this.write();
+          resolve();
         })
         .catch((err) => {
           reject(err);
@@ -65,13 +68,13 @@ class NoteService {
         data[user] = data[user].filter((a)=> a);
         //stringify the new note list for write file
         let stringify = JSON.stringify(data)
-        fs.writeFile(this.file, stringify, (err)=>{
-          if(err){
-            reject(err);
-          }
-        }
-        )
+      })
+      .then(()=>{
+        this.write()
         resolve();
+      })
+      .catch((err)=>{
+        reject(err)
       })
     })
   };
@@ -84,6 +87,7 @@ class NoteService {
           if (data[user] === undefined) {
             return (data[user] = []);
           } else {
+            console.log(data)
             resolve(data[user]);
           }
         })

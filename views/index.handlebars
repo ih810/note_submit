@@ -16,11 +16,11 @@
         <div id="notes">
             {{#each notes}}
             <div class="note row">
-                <div class="col col-sm-6 input"><textarea data-id="{{ @index }}">{{ this }}</textarea></div>
+                <div class="col col-sm-6 input"><textarea name="note" data-id="{{ @index }}">{{ this }}</textarea></div>
 
                 <div class="col col-sm-2 d-flex justify-content-center align-items-center">
                     <button class="remove btn btn-xs" data-id="{{ @index }}"><i class="fa fa-trash"
-                        aria-hidden="false"></i></button>
+              aria-hidden="false"></i></button>
                         </div>
             </div>
             {{/each}}

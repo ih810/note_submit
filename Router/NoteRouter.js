@@ -41,25 +41,14 @@ class NoteRouter {
   post(req, res){
     return this.noteService
     .add(req.body.note, req.auth.user)
-    .then(() => {
-      console.log("write");
-      this.noteService.write();
-      console.log("write done");
-    })
     .then(() => this.noteService.list(req.auth.user))
-    .then((data) => {
-      console.log(data, "router data");
-      res.render("index", {
-        user: req.auth.user,
-        notes: data,
-      });
-    })
+    .then((data)=>{
+      res.json((data))
+  })
     .catch((err) => res.status(500).json(err));
   }
   
   put(req, res) {
-    console.log("PUT");
-
     return this.noteService
       .edit(req.params.id, req.body.note, req.auth.user) // The noteService fires the update command, this will update our note (and our JSON file)
       .then(() => this.noteService.list(req.auth.user)) // Then we fire list note from the same noteService which returns the array of notes for that user.
@@ -72,7 +61,7 @@ class NoteRouter {
       .delete(req.params.id, req.auth.user)
       .then(() => this.noteService.list(req.auth.user))
       .then((data)=>{
-          res.send((data))
+          res.json((data))
       })
       .catch((err) => res.status(500).json(err));
   }

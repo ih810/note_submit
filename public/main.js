@@ -1,13 +1,15 @@
 //Handlebars complier, this is a frontN template, reloadNotes will render the text below
 var notesTemplate = Handlebars.compile(
-`  {{#each notes}}
-  <div class="note row">
-      <div class="col col-sm-6 input"><textarea data-id="{{ @index }}">{{ this }}</textarea></div>
+`{{#each notes}}
+<div class="note row">
+    <div class="col col-sm-6 input"><textarea name="note" data-id="{{ @index }}">{{ this }}</textarea></div>
 
-      <div class="col col-sm-2 d-flex justify-content-center align-items-center"><button class="remove btn btn-xs" data-id="{{ @index }}"><i class="fa fa-trash"
-              aria-hidden="false"></i></button></div>
-  </div>
-  {{/each}}`
+    <div class="col col-sm-2 d-flex justify-content-center align-items-center">
+        <button class="remove btn btn-xs" data-id="{{ @index }}"><i class="fa fa-trash"
+  aria-hidden="false"></i></button>
+            </div>
+</div>
+{{/each}}`
 );
 
 //fired off everytime user need to update the note list
@@ -20,7 +22,6 @@ const reloadNotes = (notes) => {
 $("#add").submit((e) => {
   e.preventDefault();
   var val = $("textarea[name=note]").val();
-  console.log(val);
   if (val === "") {
     return;
   }
@@ -31,8 +32,6 @@ $("#add").submit((e) => {
     })
     .then((res) => {
       reloadNotes(res.data);
-      window.location.reload();
-
     })
     .catch((err) => {
       window.location.reload();
@@ -41,16 +40,17 @@ $("#add").submit((e) => {
 
 //remove on click, send a DELETE request to the server containing the id as req.param
 $(".remove").on("click", (event) => {
-
+  console.log(event)
   let id = $(event.target).attr("data-id");
-
+  console.log(id)
   axios
     .delete(id)
     .then((res) => {
       reloadNotes(res.data);
-      window.location.reload();
     })
-
+    .catch((err)=>{
+      console.log(err)
+    })
 });
 
 //when focus out of txtarea, send a PUT req containing the id as req.param
@@ -61,7 +61,6 @@ $("#notes").on("blur", "textarea", (event) => {
         note: $(event.currentTarget).val(),
       })
       .then((res) => {
-          console.log(res.data)
         reloadNotes(res.data);
       })
       .catch((e) => {
